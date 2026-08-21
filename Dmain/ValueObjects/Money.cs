@@ -1,12 +1,12 @@
-﻿using Dmain.Enums;
-using Dmain.Exceptions;
+﻿using Domain.Enums;
+using Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dmain.ValueObjects
+namespace Domain.ValueObjects
 {
     public class Money
     {
@@ -25,6 +25,11 @@ namespace Dmain.ValueObjects
                 throw new MoneyValidationException("مقدار پول نمی تواند منفی باشد");
             Amount = amount;
             Currency = CurrencyEnum.Toman;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is Money other && other.Amount == this.Amount && other.Currency == this.Currency;
         }
     }
 }

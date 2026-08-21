@@ -1,5 +1,5 @@
 ﻿using Dmain.Entities;
-using Dmain.Repositories;
+using Dmain.IRepositories;
 using Infrastructure.Database_Context;
 using System;
 using System.Collections.Generic;
@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
 {
-    public class CattRepository : GenericRepository<Cart>, ICartRepository
+    public class PaymentTransactionRepository : GenericRepository<PaymentTransaction> , IPaymentTransactionRepository
     {
-        public CattRepository(Context context) : base(context)
+        public PaymentTransactionRepository(Context context) : base(context)
         {
             
         }

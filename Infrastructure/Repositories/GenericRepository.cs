@@ -1,8 +1,10 @@
-﻿using Dmain.Repositories;
+﻿using Application.Exceptions;
+using Dmain.Repositories;
 using Infrastructure.Database_Context;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,15 +18,8 @@ namespace Infrastructure.Repositories
         {
             _context = context;            
         }
-        public async Task AddAsync(T item)
-        {
-            await _context.Set<T>().AddAsync(item);
-            await _context.SaveChangesAsync();
-        }
+        public async Task AddAsync(T item) => await _context.Set<T>().AddAsync(item);
 
-        public async Task<T?> GetByIdAsync(Guid id)
-        {
-            return await _context.Set<T>().FindAsync(id);
-        }
+        public async Task<T?> GetByIdAsync(Guid id) => await _context.Set<T>().FindAsync(id);
     }
 }

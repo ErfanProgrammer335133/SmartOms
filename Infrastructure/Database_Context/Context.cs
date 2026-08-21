@@ -34,7 +34,7 @@ namespace Infrastructure.Database_Context
                      typeof(Customer) ,
                      typeof(Order) ,
                      typeof(OrderItem) ,
-                     typeof(Transaction) ,
+                     typeof(PaymentTransaction) ,
                      typeof(User) ,
                      typeof(Wallet) ,
                 }
@@ -93,7 +93,7 @@ namespace Infrastructure.Database_Context
 
             modelBuilder.Entity<Wallet>().HasKey(u => u.Id);
             modelBuilder.Entity<Wallet>()
-                .OwnsMany(typeof(Transaction), "_transactions", transaction =>
+                .OwnsMany(typeof(PaymentTransaction), "_transactions", transaction =>
                 {
                     transaction.WithOwner().HasForeignKey("WalletId");
 

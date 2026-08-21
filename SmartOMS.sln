@@ -1,20 +1,27 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35806.99 d17.13
+VisualStudioVersion = 17.13.35806.99
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dmain", "Dmain\Dmain.csproj", "{285ADED7-9AE5-4613-B113-78570321B95A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Dmain\Domain.csproj", "{285ADED7-9AE5-4613-B113-78570321B95A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{C964E057-4703-43E5-B34B-AE181310363C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{C90D859F-511D-4D94-9C14-7F88BD132554}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "Presentation\Presentation.csproj", "{6AFD4A51-F285-4FE6-A884-F69977631C61}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{DA87FB8A-1F9F-4D6A-9ACA-1E4B652F4AA9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Tests", "Domain.Tests\Domain.Tests.csproj", "{59682E2C-BCAF-4C87-AB6C-20A286D72DD7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Tests", "Application.Tests\Application.Tests.csproj", "{00E784FA-A056-42E2-9BF8-103DFFB98AD1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,13 +41,25 @@ Global
 		{C90D859F-511D-4D94-9C14-7F88BD132554}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C90D859F-511D-4D94-9C14-7F88BD132554}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C90D859F-511D-4D94-9C14-7F88BD132554}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6AFD4A51-F285-4FE6-A884-F69977631C61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6AFD4A51-F285-4FE6-A884-F69977631C61}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6AFD4A51-F285-4FE6-A884-F69977631C61}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6AFD4A51-F285-4FE6-A884-F69977631C61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA87FB8A-1F9F-4D6A-9ACA-1E4B652F4AA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA87FB8A-1F9F-4D6A-9ACA-1E4B652F4AA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA87FB8A-1F9F-4D6A-9ACA-1E4B652F4AA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA87FB8A-1F9F-4D6A-9ACA-1E4B652F4AA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59682E2C-BCAF-4C87-AB6C-20A286D72DD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59682E2C-BCAF-4C87-AB6C-20A286D72DD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59682E2C-BCAF-4C87-AB6C-20A286D72DD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59682E2C-BCAF-4C87-AB6C-20A286D72DD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00E784FA-A056-42E2-9BF8-103DFFB98AD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00E784FA-A056-42E2-9BF8-103DFFB98AD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00E784FA-A056-42E2-9BF8-103DFFB98AD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00E784FA-A056-42E2-9BF8-103DFFB98AD1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{59682E2C-BCAF-4C87-AB6C-20A286D72DD7} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{00E784FA-A056-42E2-9BF8-103DFFB98AD1} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9DF76393-5765-4944-8C4C-383C65E5399F}

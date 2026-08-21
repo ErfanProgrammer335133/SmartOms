@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dmain.Enums
+namespace Domain.Enums
 {
-    public enum OrderStatus
+    public enum OrderStatusEnum
     {
         Pending =  0, 
         Paid = 1 , 

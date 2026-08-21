@@ -1,13 +1,13 @@
-﻿using Dmain.Exceptions;
+﻿using Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dmain.Shared
+namespace Domain.Shared
 {
-    public static class Guard
+    public static class TextValidationGuard
     {
         public static void CommonValidations(
             string text, int minLength, int maxLength, string EmptyErrorMessage, string LengthErrorMessage)

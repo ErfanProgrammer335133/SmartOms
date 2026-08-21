@@ -1,5 +1,6 @@
-﻿using Dmain.Entities;
-using Dmain.Repositories;
+﻿using Domain.Entities;
+using Domain.Repositories;
+using Domain.ValueObjects;
 using Infrastructure.Database_Context;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -18,9 +19,19 @@ namespace Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<User?> GetUserByUsernameAsync(string username)
+        public async Task<User?> GetByMobileOrUsernameAsync(string username, string mobile)
         {
-            return await _context.Users.SingleOrDefaultAsync(x => x.Username == username);
+            return await _context.Users.FirstOrDefaultAsync(x => x.Phone == mobile || x.Username == username);
+        }
+
+        public async Task<User?> GetByMobileAsync(string mobile)
+        {
+            return await _context.Users.FirstOrDefaultAsync(x => x.Phone == mobile);
+        }
+
+        public async Task<User?> GetByUsernameAsync(string username)
+        {
+            return await _context.Users.FirstOrDefaultAsync(x => x.Username == username);
         }
     }
 }

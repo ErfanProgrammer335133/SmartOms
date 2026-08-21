@@ -1,15 +1,15 @@
-﻿using Dmain.Enums;
-using Dmain.Exceptions;
-using Dmain.ValueObjects;
+﻿using Domain.Enums;
+using Domain.Exceptions;
+using Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dmain.Entities
+namespace Domain.Entities
 {
-    public class Transaction
+    public class PaymentTransaction
     {
         public Guid Id { get; private set; }
         public Guid WalletId { get; private set; }
@@ -19,10 +19,10 @@ namespace Dmain.Entities
         public TransactionTypeEnum TransactionType { get; private set; }
         public DateTime CreatedAt { get; private set; }
 
-        public Transaction
+        public PaymentTransaction
             (Guid walletId, Money amount, TransactionTypeEnum transactionType , Money previousBalance , Money currentBalance)
         {
-            if (amount == null)
+            if (amount == null || previousBalance == null || currentBalance == null)
                 throw new MoneyValidationException("مبلغ نا معتبر .");
             Id = Guid.NewGuid();
             WalletId = walletId;
@@ -32,5 +32,6 @@ namespace Dmain.Entities
             PreviousBalance = previousBalance;
             CurrentBalance = currentBalance;
         }
+
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dmain.Enums
+namespace Domain.Enums
 {
     public enum CurrencyEnum
     {

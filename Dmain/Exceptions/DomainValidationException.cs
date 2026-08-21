@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dmain.Exceptions
+namespace Domain.Exceptions
 {
-    class DomainValidationException : Exception
+    public class DomainValidationException : Exception
     {
         public DomainValidationException()
         {
