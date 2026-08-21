@@ -61,8 +61,8 @@ __ I used Clean Architecture priciples in this project that has 4 layer :
 
 ----------------------------------------------------------
 
-## About me : I'm a backend developer with c# programming language and asp.net core framework. please follow me
-## in linkedin and give star in githun if you intersted from this project.
+## About me : 
+I'm a backend developer with c# programming language and asp.net core framework. please follow me in linkedin and give star in github if you intersted from this project.
 
 
 ## Github address : https://github.com/ErfanProgrammer335133
