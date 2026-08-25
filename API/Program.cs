@@ -1,5 +1,6 @@
 using Application.Interfaces;
 using Application.Services;
+using Application.Utilities;
 using Domain.Entities;
 using Domain.Repositories;
 using Infrastructure.Repositories;
@@ -20,14 +21,25 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+var JWTSettingSection = builder.Configuration.GetSection("JwtSetting");
+builder.Services.Configure<JwtSettings>(JWTSettingSection);
+JwtSettings jwtsetting = JWTSettingSection.Get<JwtSettings>();
+
 builder.Services.AddHttpClient<SmsService, SmsService>();
 
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IJwtservice, JwtService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 byte[] key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]);
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters

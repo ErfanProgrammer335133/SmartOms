@@ -9,9 +9,11 @@ namespace Application.DTOs.UserDTOs
 {
     public class RegisterDto
     {
-        public string Username { get; set; }
+        public required string Username { get; set; }
         [RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")]
-        public string Password { get; set; }
-        public string Phone { get; set; }
+        public required string Password { get; set; }
+        public required string Phone { get; set; }
+        public required string FullName { get; set; }
+        public string? Email { get; set; }
     }
 }

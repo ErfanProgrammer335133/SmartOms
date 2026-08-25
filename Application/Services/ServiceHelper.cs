@@ -24,18 +24,22 @@ namespace Application.Services
                 }
                 catch (NotFoundException ex)
                 {
+                    Console.WriteLine("Not found error");
                     return Result<T>.Failure(ex.Message);
                 }
                 catch (DomainValidationException ex)
                 {
+                    Console.WriteLine("Domain error");
                     return Result<T>.Failure(ex.Message);
                 }
                 catch (MoneyValidationException ex)
                 {
+                    Console.WriteLine("Money error");
                     return Result<T>.Failure(ex.Message);
                 }
                 catch (DatabaseConcurrencyException)
                 {
+                    Console.WriteLine("Database error");
                     if (concurrencyFunc is not null)
                         concurrencyFunc();
                     retry--;
@@ -57,22 +61,18 @@ namespace Application.Services
                 }
                 catch (NotFoundException ex)
                 {
-                    Console.WriteLine("Not found erreo");
                     return Result.Faliure(ex.Message);
                 }
                 catch (DomainValidationException ex)
                 {
-                    Console.WriteLine("domain error");
                     return Result.Faliure(ex.Message);
                 }
                 catch (MoneyValidationException ex)
                 {
-                    Console.WriteLine("Money error");
                     return Result.Faliure(ex.Message);
                 }
                 catch (DatabaseConcurrencyException)
                 {
-                    Console.WriteLine("Concurrency error");
                     retry--;
                     if (retry == 0)
                         return Result.Faliure("خطای همزمانی رخ داده است. لطفا مجدادا تلاش کنید.");

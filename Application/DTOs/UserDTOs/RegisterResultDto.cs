@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.DTOs.CustomerDTOs
+namespace Application.DTOs.UserDTOs
 {
-    public class CustomerDto
+    public class RegisterResultDto
     {
-        public Guid Id { get; set; }
         public Guid UserId { get; set; }
+        public Guid CustomerId { get; set; }
+        public string Username { get; set; }
         public string FullName { get; set; }
+        public string Phone { get; set; }
         public string Email { get; set; }
     }
 }

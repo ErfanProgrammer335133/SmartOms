@@ -33,5 +33,10 @@ namespace Infrastructure.Repositories
         {
             return await _context.Users.FirstOrDefaultAsync(x => x.Username == username);
         }
+
+        public async Task<User?> GetByRefreshToken(string refreshToken)
+        {
+            return await _context.Users.FirstOrDefaultAsync(x => x.RefreshToken == refreshToken);
+        }
     }
 }

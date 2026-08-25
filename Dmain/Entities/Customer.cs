@@ -16,12 +16,13 @@ namespace Domain.Entities
         public string FullName { get; private set; }
         public Email? Email { get; private set; }
 
-        public Customer(Guid userId , string fullName , string email)
+        public Customer(Guid userId , string fullName , string email = null)
         {
             Id = Guid.NewGuid();
             UserId = userId;
             SetFullname(fullName);
-            Email = new Email(email);
+            if(email != null)
+                Email = new Email(email);
         }
 
         public void SetFullname(string fullName)

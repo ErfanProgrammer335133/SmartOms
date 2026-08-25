@@ -12,5 +12,6 @@ namespace Domain.Repositories
         Task<User?> GetByUsernameAsync(string username);
         Task<User?> GetByMobileAsync(string mobile);
         Task<User?> GetByMobileOrUsernameAsync(string username , string mobile);
+        Task<User?> GetByRefreshToken(string refreshToken);
     }
 }

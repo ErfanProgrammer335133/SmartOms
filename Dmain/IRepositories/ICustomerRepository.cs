@@ -9,5 +9,6 @@ namespace Domain.Repositories
 {
     public interface ICustomerRepository : IGenericRepository<Customer>
     {
+        Task<Customer> GetByUserIdAsync(Guid userId);
     }
 }

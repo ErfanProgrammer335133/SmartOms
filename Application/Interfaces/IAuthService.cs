@@ -12,8 +12,8 @@ namespace Application.Interfaces
     {
         Task<Result> RegisterAsync(RegisterDto model);
         Task<Result> RegisterAdminAsync(RegisterDto model);
-        Task<Result<LoginResultDto>> LotginAsync(LoginDto model);
-        Task<Result<LoginResultDto>> LotginWithMobileAsync(LoginWithMobileDto model);
-        Task<Result<RefreshTokenRespondDto>> RefreshToken(string refreshToken);
+        Task<Result<LoginResultDto>> LoginAsync(LoginDto model);
+        Task<Result<LoginResultDto>> LoginWithMobileAsync(LoginWithMobileDto model);
+        Task<Result<RefreshTokenRespondDto>> RefreshTokenAsync(string refreshToken);
     }
 }
