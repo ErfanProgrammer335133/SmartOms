@@ -1,4 +1,4 @@
-﻿using Dmain.Entities;
+﻿using Domain.Entities;
 using Infrastructure.Shared;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -20,6 +20,7 @@ namespace Infrastructure.Database_Context
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Wallet> Wallets { get; set; }
+        public DbSet<PaymentTransaction> Transactions { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

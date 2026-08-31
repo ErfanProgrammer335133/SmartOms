@@ -18,7 +18,7 @@ namespace Domain.Tests.Tests
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaav")] // Length = 101
         public void Constructor_Should_Throw_DomainValidationException_When_usernames_Length_Is_Less_Than8_Or_Greater_Than100(string username)
         {
-            Assert.Throws<DomainValidationException>(() => new User(username, "erfan335133", RoleEnum.Addmin));
+            Assert.Throws<DomainValidationException>(() => new User(username, "erfan335133", "09960357263" , RoleEnum.Admin));
         }
 
         [Theory]
@@ -27,7 +27,7 @@ namespace Domain.Tests.Tests
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaav")] // Length = 101
         public void Constructor_Should_Throw_DomainValidationException_When_Passwords_Length_Is_Less_Than8_Or_Greater_Than100(string password)
         {
-            Assert.Throws<DomainValidationException>(() => new User("erfan", password, RoleEnum.Addmin));
+            Assert.Throws<DomainValidationException>(() => new User("erfan", password, "09960357263", RoleEnum.Admin));
         }
 
         [Fact]
@@ -37,7 +37,7 @@ namespace Domain.Tests.Tests
             string password = "erfan335133";
             RoleEnum role = RoleEnum.Customer;
 
-            User user = new User(username, password, role);
+            User user = new User(username, password, "09960357263", role);
 
             Assert.NotNull(user);
             Assert.Equal(username, user.Username);
@@ -49,7 +49,7 @@ namespace Domain.Tests.Tests
         [Fact]
         public void Verify_Should_Change_IsVrified_To_True()
         {
-            User user = new User("test user name", "test password", RoleEnum.Customer);
+            User user = new User("test user name", "test password", "09960357263", RoleEnum.Customer);
             user.Verify();
             Assert.True(user.IsVerified);
         }
@@ -57,7 +57,7 @@ namespace Domain.Tests.Tests
         [Fact]
         public void SetRole_Should_Set_Role_Correctly()
         {
-            User user = new User("test user name", "test password", RoleEnum.Customer);
+            User user = new User("test user name", "test password", "09960357263", RoleEnum.Customer);
             user.SetRole(RoleEnum.Addmin);
             Assert.Equal(RoleEnum.Addmin, user.Role);
         }

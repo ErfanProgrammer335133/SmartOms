@@ -10,5 +10,6 @@ namespace Domain.IRepositories
 {
     public interface IPaymentTransactionRepository  :IGenericRepository<PaymentTransaction>
     {
+        Task<List<PaymentTransaction>> GetTransactionsHistoryAsync(Guid walletId);
     }
 }

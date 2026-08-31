@@ -9,6 +9,5 @@ namespace Application.Interfaces
 {
     public interface ISmsService
     {
-        Task SendAsync(Phone phone, string message);
     }
 }

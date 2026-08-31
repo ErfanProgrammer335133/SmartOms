@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Application.DTOs.PaymentDTOs;
+using Domain.Entities;
 using Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,6 @@ namespace Application.Interfaces
 {
     public interface IPaymentService
     {
-        Task<PaymentTransaction> PayAsync(Money amount);
+        Task<PaymentTransaction> PayAsync(PayDto dto);
     }
 }
