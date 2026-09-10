@@ -30,7 +30,7 @@ namespace Domain.Tests.Tests
         {
             public IEnumerator<object[]> GetEnumerator()
             {
-                yield return new object[] { null };
+                yield return new object[] { null! };
                 yield return new object[] { new List<InvoiceItem>()};
             }
 
@@ -95,7 +95,7 @@ namespace Domain.Tests.Tests
         {
             public IEnumerator<object[]> GetEnumerator()
             {
-                yield return new object[] { null };
+                yield return new object[] { null! };
                 yield return new object[] { new List<CartItem>().AsReadOnly() };
             }
 

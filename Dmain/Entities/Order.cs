@@ -29,6 +29,11 @@ namespace Domain.Entities
             Id = Guid.NewGuid();
         }
 
+        private Order()
+        {
+            
+        }
+
         public Money TotalPrice =>
             new Money(
                 _items.Sum(x => x.TotalPrice.Amount),

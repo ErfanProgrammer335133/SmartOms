@@ -29,6 +29,11 @@ namespace Domain.Entities
             MaxQuantity = maxQuantity;
         }
 
+        private BusinessService()
+        {
+            
+        }
+
         public void SetTitle(string title)
         {
             TextValidationGuard.CommonValidations(title, 1, 100,

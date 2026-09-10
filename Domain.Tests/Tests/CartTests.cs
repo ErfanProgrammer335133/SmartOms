@@ -71,7 +71,7 @@ namespace Domain.Tests.Tests
                 cart.AddItem(
                    Guid.NewGuid() ,
                    "test title" ,
-                   null ,
+                   null! ,
                    2 , 
                    3 , 
                    0
@@ -109,7 +109,7 @@ namespace Domain.Tests.Tests
             cart.AddItem(serviceId, "test title", new Money(100), 1, 3, 0);
 
             int expectedQuantity = 2;
-            int realQuantity = cart.Items.FirstOrDefault(x => x.ServiceId == serviceId).Quantity;
+            int realQuantity = cart.Items.FirstOrDefault(x => x.ServiceId == serviceId)?.Quantity ?? 0;
             Assert.Equal(expectedQuantity, realQuantity);
         }
         
@@ -122,7 +122,7 @@ namespace Domain.Tests.Tests
             cart.AddItem(serviceId, "test title", new Money(100), 2, 3, 10);
 
             decimal excpectedPrice = 2 * 100 - 10 * 200 / 100;
-            decimal realPrice = cart.Items.FirstOrDefault(x => x.ServiceId == serviceId).FinalPrice.Amount;
+            decimal realPrice = cart.Items.FirstOrDefault(x => x.ServiceId == serviceId)?.FinalPrice.Amount ?? 0;
 
             Assert.Equal(excpectedPrice, realPrice);
         }
@@ -170,7 +170,8 @@ namespace Domain.Tests.Tests
             int Count_Before_Remove = cart.Items.Count; // = 1;
             CartItem? item = cart.Items.FirstOrDefault(x => x.ServiceId == serviceId);
 
-            cart.RemoveItem(item.Id);
+            if(item is not null)
+                cart.RemoveItem(item.Id);
             Assert.Equal(Count_Before_Remove - 1, cart.Items.Count); // = 0;
         }
 

@@ -22,7 +22,7 @@ namespace Domain.Tests.Tests
         public void Constructor_Should_Throw_MoneyValidationException_When_UnitPrice_Is_Null()
         {
             Assert.Throws<MoneyValidationException>(() =>
-            new OrderItem(Guid.NewGuid(), "test title", null, 2, 2));
+            new OrderItem(Guid.NewGuid(), "test title", null!, 2, 2));
 
         }
 

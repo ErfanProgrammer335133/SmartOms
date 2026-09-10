@@ -1,4 +1,5 @@
 ﻿using Application.ApplicationGuard;
+using Application.DTOs.PaymentDTOs;
 using Application.DTOs.TransactionDTOs;
 using Application.Interfaces;
 using Application.Services;
@@ -50,18 +51,19 @@ namespace Application.Tests.Tests
             [Fact]
             public async Task Should_Return_Failre_When_Dto_Is_Null()
             {
-                Result<PaymentTransactionDto> result = await _service.DepositeAsync(null);
+                Result<PaymentTransactionDto> result = await _service.DepositeAsync(null!);
+                string message = "ورودی نامعتبر است .";
 
                 Assert.False(result.IsSuccess);
                 Assert.Null(result.Value);
-                Assert.Equal(result.ErrorMessage, "ورودی نامعتبر است .");
+                Assert.Equal(result.ErrorMessage, message);
             }
             
             [Fact]
             public async Task Should_Return_Failre_When_Wallet_Was_Not_Founded()
             {
                 DepositeDto dto = new DepositeDto { WalletId = Guid.NewGuid(), Amount = new Money(150), CustomerId = Guid.NewGuid() };
-                _mockWalletRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((Wallet)null);
+                _mockWalletRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((Wallet)null!);
                 
                 Result<PaymentTransactionDto> result = await _service.DepositeAsync(dto);
 
@@ -78,14 +80,15 @@ namespace Application.Tests.Tests
                 Wallet wallet = new Wallet(customerId);
                 DepositeDto dto = new DepositeDto { WalletId = walletId, Amount = new Money(150), CustomerId = customerId };
 
-                _mockCustomerRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((Customer)null);
+                _mockCustomerRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((Customer)null!);
                 _mockWalletRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(wallet);
                 
                 Result<PaymentTransactionDto> result = await _service.DepositeAsync(dto);
+                string message = "کاربر پیدا نشد .";
 
                 Assert.False(result.IsSuccess);
                 Assert.Null(result.Value);
-                Assert.Equal(result.ErrorMessage, "کاربر پیدا نشد .");
+                Assert.Equal(result.ErrorMessage, message);
             }
             
             [Fact]
@@ -99,10 +102,11 @@ namespace Application.Tests.Tests
                 _mockWalletRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(wallet);
                 
                 Result<PaymentTransactionDto> result = await _service.DepositeAsync(dto);
+                string message = "اطلاعات وارد شده باهم مطابقت ندار .";
 
                 Assert.False(result.IsSuccess);
                 Assert.Null(result.Value);
-                Assert.Equal(result.ErrorMessage, "اطلاعات وارد شده باهم مطابقت ندار .");
+                Assert.Equal(result.ErrorMessage, message);
             }
             
             [Fact]
@@ -117,7 +121,7 @@ namespace Application.Tests.Tests
                 _mockCustomerRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(customer);
                 _mockWalletRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(wallet);
                 _mockWalletRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(wallet);
-                _mockPaymentService.Setup(x => x.PayAsync(It.IsAny<Money>())).ReturnsAsync(payment);
+                _mockPaymentService.Setup(x => x.PayAsync(It.IsAny<PayDto>())).ReturnsAsync(payment);
 
                 string currenccy = payment.Amount.Currency == Domain.Enums.CurrencyEnum.Euro ? "Euro" :
                     payment.Amount.Currency == Domain.Enums.CurrencyEnum.Pound ? "Pound" :
@@ -126,6 +130,7 @@ namespace Application.Tests.Tests
 
 
                 Result<PaymentTransactionDto> result = await _service.DepositeAsync(dto);
+                decimal excpected_balence = 150;
 
                 Assert.True(result.IsSuccess);
                 Assert.NotNull(result.Value);
@@ -135,7 +140,7 @@ namespace Application.Tests.Tests
                 Assert.Equal(result.Value.CurrentBalance, $"{payment.CurrentBalance.Amount} {currenccy}");
                 Assert.Equal(result.Value.PreviousBalance, $"{payment.PreviousBalance.Amount} {currenccy}");
                 Assert.Equal(result.Value.CreatedAt, payment.CreatedAt);
-                Assert.Equal(wallet.Balance.Amount, 150);
+                Assert.Equal(wallet.Balance.Amount, excpected_balence);
             }
 
             
@@ -146,13 +151,14 @@ namespace Application.Tests.Tests
             [Fact]
             public async Task Should_Return_Failre_When_Wallet_Was_Not_Founded()
             {
-                _mockWalletRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((Wallet)null);
+                _mockWalletRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((Wallet)null!);
 
                 Result<List<PaymentTransactionDto>> result = await _service.GetTransactionsHistoryAsync(Guid.NewGuid());
+                string message = "کیف پول پیدا نشد .";
 
                 Assert.False(result.IsSuccess);
                 Assert.Null(result.Value);
-                Assert.Equal(result.ErrorMessage, "کیف پول پیدا نشد .");
+                Assert.Equal(result.ErrorMessage, message);
             }
 
             [Fact]
@@ -200,7 +206,7 @@ namespace Application.Tests.Tests
             [Fact]
             public async Task Should_Return_When_Wallet_Was_Not_Founded()
             {
-                _mockWalletRepo.Setup(x => x.GetByCustomerIdAsync(It.IsAny<Guid>())).ReturnsAsync((Wallet)null);
+                _mockWalletRepo.Setup(x => x.GetByCustomerIdAsync(It.IsAny<Guid>())).ReturnsAsync((Wallet)null!);
                 Result<WalletDto> result = await _service.GetWalletAsync(Guid.NewGuid());
 
                 Assert.False(result.IsSuccess);

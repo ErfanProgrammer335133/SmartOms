@@ -16,21 +16,21 @@ namespace Domain.Tests.Tests
         public void Constructor_Should_Throw_MoneyValidationException_When_Amount_Is_Null()
         {
             Assert.Throws<MoneyValidationException>(() =>
-            new PaymentTransaction(Guid.NewGuid(), null, TransactionTypeEnum.Deposite, new Money(100), new Money(120)));
+            new PaymentTransaction(Guid.NewGuid(), null!, TransactionTypeEnum.Deposite, new Money(100), new Money(120)));
         }
         
         [Fact]
         public void Constructor_Should_Throw_MoneyValidationException_When_PreviousBalence_Is_Null()
         {
             Assert.Throws<MoneyValidationException>(() =>
-            new PaymentTransaction(Guid.NewGuid(), new Money(80), TransactionTypeEnum.Deposite, null, new Money(120)));
+            new PaymentTransaction(Guid.NewGuid(), new Money(80), TransactionTypeEnum.Deposite, null!, new Money(120)));
         }
         
         [Fact]
         public void Constructor_Should_Throw_MoneyValidationException_When_CurrentBalence_Is_Null()
         {
             Assert.Throws<MoneyValidationException>(() =>
-            new PaymentTransaction(Guid.NewGuid(), new Money(80), TransactionTypeEnum.Deposite, new Money(100), null));
+            new PaymentTransaction(Guid.NewGuid(), new Money(80), TransactionTypeEnum.Deposite, new Money(100), null!));
         }
 
         [Fact]

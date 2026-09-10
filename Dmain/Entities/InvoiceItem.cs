@@ -39,5 +39,9 @@ namespace Domain.Entities
             FinalPrice = DiscountGuard.CalculateDiscount(TotalPrice, discountPercent);
             CreatedAt = DateTime.UtcNow;
         }
+        private InvoiceItem()
+        {
+            
+        }
     }
 }

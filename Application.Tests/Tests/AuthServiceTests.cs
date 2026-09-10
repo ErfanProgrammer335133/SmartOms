@@ -5,7 +5,7 @@ using Application.Services;
 using Application.Utilities;
 using Domain.Entities;
 using Domain.Repositories;
-using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -22,7 +22,7 @@ namespace Application.Tests.Tests
     public class AuthServiceTests
     {
         private readonly Mock<IUserRepository> _mockUserRepository;
-        private readonly Mock<IPasswordHasher> _mockHasher;
+        private readonly Mock<IPasswordHasher<object>> _mockHasher;
         private readonly Mock<IUnitOfWork> _mockUnitOfWork;
         private readonly Mock<ICustomerService> _mockCustomerService;
         private readonly IJwtservice _jwtService;
@@ -32,7 +32,7 @@ namespace Application.Tests.Tests
         {
             _mockUserRepository = new Mock<IUserRepository>();
             _mockUnitOfWork = new Mock<IUnitOfWork>();
-            _mockHasher = new Mock<IPasswordHasher>();
+            _mockHasher = new Mock<IPasswordHasher<object>>();
             _mockCustomerService = new Mock<ICustomerService>();
 
             var configuration = new ConfigurationBuilder()
@@ -56,7 +56,7 @@ namespace Application.Tests.Tests
             {
                 public IEnumerator<object[]> GetEnumerator()
                 {
-                    yield return new object[] { null };
+                    yield return new object[] { null! };
                     yield return new object[] { new RegisterDto { Username = "", Password = "erfan335133", Phone = "09960357263", FullName = "efmirnfunf3u", Email = "ercmdcpm@gmail.com" } };
                     yield return new object[] { new RegisterDto { Username = "erfan", Password = "", Phone = "09960357263", FullName = "efmirnfunf3u", Email = "ercmdcpm@gmail.com" } };
                     yield return new object[] { new RegisterDto { Username = "erfan", Password = "erfan335133", Phone = "", FullName = "efmirnfunf3u", Email = "ercmdcpm@gmail.com" } };
@@ -112,7 +112,7 @@ namespace Application.Tests.Tests
                     Email = "ercmdcpm@gmail.com"
                 };
 
-                _mockHasher.Setup(x => x.HashPassword(It.IsAny<string>())).Returns("inurcntcbyyy4cbryr");
+                _mockHasher.Setup(x => x.HashPassword(It.IsAny<User> , It.IsAny<string>())).Returns("inurcntcbyyy4cbryr");
 
                 Result result = await _service.RegisterAsync(dto);
 
@@ -136,7 +136,7 @@ namespace Application.Tests.Tests
                     Email = "ercmdcpm@gmail.com"
                 };
 
-                _mockHasher.Setup(x => x.HashPassword(It.IsAny<string>())).Returns("inurcntcbyyy4cbryr");
+                _mockHasher.Setup(x => x.HashPassword(It.IsAny<User> , It.IsAny<string>())).Returns("inurcntcbyyy4cbryr");
 
                 Result result = await _service.RegisterAsync(dto);
 
@@ -151,7 +151,7 @@ namespace Application.Tests.Tests
             [Fact]
             public async Task Should_Return_Failure_When_Model_Is_Null()
             {
-                Result<LoginResultDto> result = await _service.LoginAsync(null);
+                Result<LoginResultDto> result = await _service.LoginAsync(null!);
 
                 Assert.False(result.IsSuccess);
                 Assert.Equal("ورودی نا معتبر است .", result.ErrorMessage);
@@ -166,7 +166,7 @@ namespace Application.Tests.Tests
                     Password = "Erfan335133",
                 };
 
-                _mockUserRepository.Setup(x => x.GetByUsernameAsync(It.IsAny<string>())).ReturnsAsync((User)null);
+                _mockUserRepository.Setup(x => x.GetByUsernameAsync(It.IsAny<string>())).ReturnsAsync((User)null!);
 
                 Result<LoginResultDto> result = await _service.LoginAsync(model);
                 Assert.False(result.IsSuccess);
@@ -178,7 +178,8 @@ namespace Application.Tests.Tests
             {
                 string userHashedPassword = "kdieubyr3brhcbr3yur";
                 string EntryHashedPassword = "xmicrmcjrnchjchrcsr";
-                _mockHasher.Setup(x => x.VerifyHashedPassword(userHashedPassword, EntryHashedPassword))
+                User user = new User("Erfan335133", "Erfan335133", "09960357263", Domain.Enums.RoleEnum.Customer);
+                _mockHasher.Setup(x => x.VerifyHashedPassword(user , userHashedPassword, EntryHashedPassword))
                     .Returns(PasswordVerificationResult.Failed);
 
                 LoginDto dto = new LoginDto
@@ -186,7 +187,6 @@ namespace Application.Tests.Tests
                     UserName = "Erfan335133",
                     Password = "Erfan335133"
                 };
-                User user = new User("Erfan335133", "Erfan335133", "09960357263", Domain.Enums.RoleEnum.Customer);
                 _mockUserRepository.Setup(x => x.GetByUsernameAsync(It.IsAny<string>())).ReturnsAsync(user);
 
                 Result<LoginResultDto> result = await _service.LoginAsync(dto);
@@ -198,7 +198,8 @@ namespace Application.Tests.Tests
             [Fact]
             public async Task Should_Return_Success_When_All_Conditions_Are_True()
             {
-                _mockHasher.Setup(x => x.VerifyHashedPassword(It.IsAny<string>(), It.IsAny<string>()))
+                User user = new User("Erfan335133", "Erfan335133", "09960357263", Domain.Enums.RoleEnum.Customer);
+                _mockHasher.Setup(x => x.VerifyHashedPassword(user , It.IsAny<string>(), It.IsAny<string>()))
                     .Returns(PasswordVerificationResult.Success);
 
                 LoginDto dto = new LoginDto
@@ -206,7 +207,6 @@ namespace Application.Tests.Tests
                     UserName = "Erfan335133",
                     Password = "Erfan335133"
                 };
-                User user = new User("Erfan335133", "Erfan335133", "09960357263", Domain.Enums.RoleEnum.Customer);
                 _mockUserRepository.Setup(x => x.GetByUsernameAsync(It.IsAny<string>())).ReturnsAsync(user);
 
                 Result<LoginResultDto> result = await _service.LoginAsync(dto);
@@ -223,7 +223,8 @@ namespace Application.Tests.Tests
             [Fact]
             public async Task Should_Return_Success_When_All_Conditions_Are_True()
             {
-                _mockHasher.Setup(x => x.VerifyHashedPassword(It.IsAny<string>(), It.IsAny<string>()))
+                User user = new User("Erfan335133", "Erfan335133", "09960357263", Domain.Enums.RoleEnum.Customer);
+                _mockHasher.Setup(x => x.VerifyHashedPassword(user , It.IsAny<string>(), It.IsAny<string>()))
                     .Returns(PasswordVerificationResult.Success);
 
                 LoginWithMobileDto dto = new LoginWithMobileDto
@@ -231,7 +232,6 @@ namespace Application.Tests.Tests
                     Phone = "09960357263",
                     Password = "Erfan335133"
                 };
-                User user = new User("Erfan335133", "Erfan335133", "09960357263", Domain.Enums.RoleEnum.Customer);
                 _mockUserRepository.Setup(x => x.GetByMobileAsync(It.IsAny<string>())).ReturnsAsync(user);
 
                 Result<LoginResultDto> result = await _service.LoginWithMobileAsync(dto);
@@ -249,7 +249,7 @@ namespace Application.Tests.Tests
             [Fact]
             public async Task Should_Return_Failure_When_User_Was_Not_Founded()
             {
-                _mockUserRepository.Setup(x => x.GetByRefreshToken(It.IsAny<string>())).ReturnsAsync((User)null);
+                _mockUserRepository.Setup(x => x.GetByRefreshToken(It.IsAny<string>())).ReturnsAsync((User)null!);
 
                 Result<RefreshTokenRespondDto> result = await _service.RefreshTokenAsync("deimienxu3 x");
 
@@ -300,10 +300,10 @@ namespace Application.Tests.Tests
 
                 Result<RefreshTokenRespondDto> result = await _service.RefreshTokenAsync(refreshTOken);
 
-                Console.WriteLine("This is token : " + result.Value.AccessToken);
+                Console.WriteLine("This is token : " + result?.Value?.AccessToken);
 
-                Assert.True(result.IsSuccess);
-                Assert.NotNull(result.Value);
+                Assert.True(result?.IsSuccess);
+                Assert.NotNull(result?.Value);
                 Assert.NotEmpty(result.Value.AccessToken);
                 Assert.NotNull(result.Value.AccessToken);
                 Assert.NotEmpty(result.Value.RefreshToken);

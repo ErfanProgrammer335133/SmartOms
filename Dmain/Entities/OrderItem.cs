@@ -12,6 +12,8 @@ namespace Domain.Entities
     {
         public Guid Id { get;  private set; }
         public Guid ServiceId { get; private set; }
+        public Guid OrderId { get; private set; }
+        public Order Order { get; private set; }
         public string Title { get; private set; }
         public int Quantity { get; private set; }
         public int MaxQuantity { get; private set; }
@@ -35,6 +37,10 @@ namespace Domain.Entities
             Id = Guid.NewGuid();
         }
 
+        private OrderItem()
+        {
+            
+        }
         public Money TotalPrice => new Money(UnitPrice.Amount * Quantity , UnitPrice.Currency);
         public void IncreaseQuantity(int count)
         {

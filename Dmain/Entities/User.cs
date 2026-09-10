@@ -17,7 +17,7 @@ namespace Domain.Entities
         public Phone Phone { get; private set; }
         public RoleEnum Role { get; private set; }
         public bool IsVerified { get; private set; }
-        public string RefreshToken { get; set; }
+        public string? RefreshToken { get; set; }
         public DateTime Expiry { get; set; }
 
         public User(string username , string hashPassword , string phone , RoleEnum role)
@@ -27,6 +27,11 @@ namespace Domain.Entities
             Role = role;
             Phone = new Phone(phone);
             IsVerified = false;
+        }
+
+        private User()
+        {
+            
         }
 
         public void Verify() => IsVerified = true;

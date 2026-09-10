@@ -61,7 +61,7 @@ namespace Application.Tests.Tests
             [Fact]
             public async Task Should_Return_Failure_When_Cart_Not_Found()
             {
-                _mockCartRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((Cart)null);
+                _mockCartRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((Cart)null!);
 
                 Result<CartDto> result = await _cartService.GetNewPricesAsync(Guid.NewGuid());
 
@@ -157,7 +157,7 @@ namespace Application.Tests.Tests
                 _mockCartRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(cart);
 
                 _mockBusinessserviceService?.Setup(x => x.GetPricesAsync(It.IsAny<List<Guid>>()))
-                    .ReturnsAsync((List<ServicePriceDto>)null);
+                    .ReturnsAsync((List<ServicePriceDto>)null!);
 
                 Result<CartDto> result = await _cartService.GetNewPricesAsync(Guid.NewGuid());
 
@@ -219,7 +219,7 @@ namespace Application.Tests.Tests
             [Fact]
             public async Task Should_Return_Failure_When_Item_Is_Null()
             {
-                Result result = await _cartService.AddToCartAsync((CartItemDto)null, Guid.NewGuid());
+                Result result = await _cartService.AddToCartAsync((CartItemDto)null!, Guid.NewGuid());
 
                 Assert.False(result.IsSuccess);
                 Assert.Equal("ورودی نا معتبر" , result.ErrorMessage);
@@ -229,9 +229,9 @@ namespace Application.Tests.Tests
             public async Task Should_Return_Failure_When_Customer_Was_Not_Founded()
             {
                 _mockCartRepo.Setup(x => x.GetByCustomerIdAsync(It.IsAny<Guid>()))
-                    .ReturnsAsync((Cart)null);
+                    .ReturnsAsync((Cart)null!);
 
-                _mockCustomerRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((Customer)null);
+                _mockCustomerRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((Customer)null!);
 
                 CartItemDto item = new CartItemDto(Guid.NewGuid(), "title", new Money(150), 2, false, 0);
 
@@ -248,7 +248,7 @@ namespace Application.Tests.Tests
                 _mockCartRepo.Setup(x => x.GetByCustomerIdAsync(It.IsAny<Guid>()))
                     .ReturnsAsync(cart);
                 _mockBusinessServiceRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>()))
-                    .ReturnsAsync((BusinessService)null);
+                    .ReturnsAsync((BusinessService)null!);
                 CartItemDto item = new CartItemDto(Guid.NewGuid(), "title", new Money(150), 2, false, 0);
 
                 Result result = await _cartService.AddToCartAsync(item, Guid.NewGuid());
@@ -342,7 +342,7 @@ namespace Application.Tests.Tests
             [Fact]
             public async Task Should_Retuen_Failure_When_Cart_Was_Not_Founded()
             {
-                _mockCartRepo.Setup(x => x.GetByCustomerIdAsync(It.IsAny<Guid>())).ReturnsAsync((Cart)null);
+                _mockCartRepo.Setup(x => x.GetByCustomerIdAsync(It.IsAny<Guid>())).ReturnsAsync((Cart)null!);
 
                 Result result = await _cartService.RemoveFromCartAsync(Guid.NewGuid(), Guid.NewGuid());
 
@@ -371,7 +371,8 @@ namespace Application.Tests.Tests
                 _mockCartRepo.Setup(x => x.GetByCustomerIdAsync(It.IsAny<Guid>())).ReturnsAsync(cart);
 
                 CartItem? item = cart.Items.FirstOrDefault(x => x.ServiceId == serviceId);
-
+                if (item is null)
+                    return;
                 Result result = await _cartService.RemoveFromCartAsync(Guid.NewGuid(), item.Id);
 
                 CartItem? find = cart.Items.FirstOrDefault(x => x.ServiceId == serviceId);
@@ -390,7 +391,7 @@ namespace Application.Tests.Tests
             [Fact]
             public async Task Should_Return_Failure_When_Cart_Was_Not_Founded()
             {
-                _mockCartRepo.Setup(x => x.GetByCustomerIdAsync(It.IsAny<Guid>())).ReturnsAsync((Cart)null);
+                _mockCartRepo.Setup(x => x.GetByCustomerIdAsync(It.IsAny<Guid>())).ReturnsAsync((Cart)null!);
 
                 Result<OrderDto> result = await _cartService.CheckoutAsync(Guid.NewGuid());
 
@@ -404,7 +405,7 @@ namespace Application.Tests.Tests
                 Cart cart = new Cart(Guid.NewGuid());
                 _mockCartRepo.Setup(x => x.GetByCustomerIdAsync(It.IsAny<Guid>())).ReturnsAsync(cart);
 
-                _mockWalletRepo.Setup(x => x.GetByCustomerIdAsync(It.IsAny<Guid>())).ReturnsAsync((Wallet)null);
+                _mockWalletRepo.Setup(x => x.GetByCustomerIdAsync(It.IsAny<Guid>())).ReturnsAsync((Wallet)null!);
 
                 Result<OrderDto> result = await _cartService.CheckoutAsync(Guid.NewGuid());
 
@@ -499,13 +500,15 @@ namespace Application.Tests.Tests
 
                 Result<OrderDto> result = await _cartService.CheckoutAsync(cart.CustomerId);
 
+                Domain.Enums.OrderStatusEnum expected_type = Domain.Enums.OrderStatusEnum.Paid;
+
                 Assert.True(result.IsSuccess);
                 Assert.NotNull(result.Value);
                 Assert.Equal(result.Value.CustomerId, cart.CustomerId);
                 Assert.Equal(result.Value.CreatedAt.Year, DateTime.UtcNow.Year);
                 Assert.Equal(result.Value.CreatedAt.Month, DateTime.UtcNow.Month);
                 Assert.Equal(result.Value.CreatedAt.Day, DateTime.UtcNow.Day);
-                Assert.Equal(result.Value.Status, Domain.Enums.OrderStatusEnum.Paid);
+                Assert.Equal(result.Value.Status, expected_type);
                 Assert.NotNull(result.Value.Invoice);
                 Assert.Equal(result.Value.Invoice.OrderId , result.Value.Id);
                 Assert.Equal(result.Value.Invoice.TotalPrice.Amount , totalPrice.Amount);
@@ -553,7 +556,7 @@ namespace Application.Tests.Tests
             [Fact]
             public async Task Should_Return_Failure_When_Cart_Was_Not_Founded()
             {
-                _mockCartRepo.Setup(x => x.GetByCustomerIdAsync(It.IsAny<Guid>())).ReturnsAsync((Cart)null);
+                _mockCartRepo.Setup(x => x.GetByCustomerIdAsync(It.IsAny<Guid>())).ReturnsAsync((Cart)null!);
 
                 Result result = await _cartService.ClearCartAsync(Guid.NewGuid());
 

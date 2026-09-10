@@ -13,6 +13,7 @@ namespace Domain.Entities
     {
         public Guid Id { get; private set; }
         public Guid WalletId { get; private set; }
+        public Wallet Wallet { get; private set; }
         public Money Amount { get; private set; }
         public Money PreviousBalance { get; private set; }
         public Money CurrentBalance { get; private set; }
@@ -33,5 +34,9 @@ namespace Domain.Entities
             CurrentBalance = currentBalance;
         }
 
+        private PaymentTransaction()
+        {
+            
+        }
     }
 }

@@ -16,7 +16,7 @@ namespace Domain.Tests.Tests
         public void Should_Throw_DomainValidationException_when_UnitPrice_Is_Null()
         {
             Assert.Throws<MoneyValidationException>(() => 
-            new CartItem(Guid.NewGuid(), "test title", null, 1, 2, 0));
+            new CartItem(Guid.NewGuid(), "test title", null!, 1, 2, 0));
         }
 
         [Theory]
@@ -124,7 +124,7 @@ namespace Domain.Tests.Tests
         public void SetUnitPrice_Should_Throw_MoneyValidationException_When_Price_Is_Null()
         {
             var item = new CartItem(Guid.NewGuid(), "test", new Money(100), 1, 3, 0);
-            Assert.Throws<MoneyValidationException>(() => item.SetUnitPrice(null));
+            Assert.Throws<MoneyValidationException>(() => item.SetUnitPrice(null!));
         }
 
         [Fact]

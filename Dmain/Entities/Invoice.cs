@@ -27,6 +27,11 @@ namespace Domain.Entities
             TotalPrice = new Money(Items.Sum(x => x.TotalPrice.Amount), Items.First().UnitPrice.Currency);
         }
 
+        private Invoice()
+        {
+            
+        }
+
         public static Invoice CreateInvoice(Guid orderId , IReadOnlyCollection<CartItem> cartItems)
         {
             if (cartItems == null || cartItems.Count == 0)

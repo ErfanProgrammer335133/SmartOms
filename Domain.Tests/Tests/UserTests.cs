@@ -58,8 +58,8 @@ namespace Domain.Tests.Tests
         public void SetRole_Should_Set_Role_Correctly()
         {
             User user = new User("test user name", "test password", "09960357263", RoleEnum.Customer);
-            user.SetRole(RoleEnum.Addmin);
-            Assert.Equal(RoleEnum.Addmin, user.Role);
+            user.SetRole(RoleEnum.Admin);
+            Assert.Equal(RoleEnum.Admin, user.Role);
         }
     }
 }

@@ -12,6 +12,8 @@ namespace Domain.ValueObjects
     {
         public string PhoneNumber { get; private set; }
 
+        private Phone() { }
+
         public Phone(string phone)
         {
             if (string.IsNullOrWhiteSpace(phone))

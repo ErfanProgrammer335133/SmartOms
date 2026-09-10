@@ -17,8 +17,10 @@ namespace Infrastructure.Database_Context
         public DbSet<User> Users { get; set; }
         public DbSet<BusinessService> BusinessServices { get; set; }
         public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Wallet> Wallets { get; set; }
         public DbSet<PaymentTransaction> Transactions { get; set; }
 
@@ -31,11 +33,8 @@ namespace Infrastructure.Database_Context
                 {
                      typeof(BusinessService) ,
                      typeof(Cart) ,
-                     typeof(CartItem) ,
                      typeof(Customer) ,
                      typeof(Order) ,
-                     typeof(OrderItem) ,
-                     typeof(PaymentTransaction) ,
                      typeof(User) ,
                      typeof(Wallet) ,
                 }
@@ -48,6 +47,12 @@ namespace Infrastructure.Database_Context
                 .HasIndex(u => u.Username)
                 .HasDatabaseName("IX_User_username&passwod")
                 .IsUnique();
+            modelBuilder.Entity<User>()
+                .OwnsOne(x => x.Phone, mobile =>
+                {
+                    mobile.Property(m => m.PhoneNumber)
+                    .HasColumnName("Mobile");
+                });
 
             modelBuilder.Entity<BusinessService>().HasKey(u => u.Id);
             modelBuilder.Entity<BusinessService>().Property(u => u.Title).IsRequired();
@@ -61,50 +66,99 @@ namespace Infrastructure.Database_Context
                 .HasOne<Customer>()
                 .WithOne()
                 .HasForeignKey<Cart>(u => u.CustomerId);
-            modelBuilder.Entity<Cart>()
-                .OwnsMany(typeof(CartItem), "_items", item =>
-                {
-                    item.WithOwner().HasForeignKey("CartId");
 
-                    item.Property<Guid>("Id");
-                    item.HasKey("Id");
-                 });
+            modelBuilder.Entity<Cart>()
+                .Navigation(c => c.Items)
+                .UsePropertyAccessMode(PropertyAccessMode.Field);
+
+            modelBuilder.Entity<Cart>()
+                .HasMany<CartItem>(x => x.Items)
+                .WithOne(c => c.Cart)
+                .HasForeignKey(c => c.CartId);
+
+            modelBuilder.Entity<CartItem>()
+                .OwnsOne(x => x.UnitPrice, money =>
+                {
+                    money.Property(m => m.Amount)
+                    .HasColumnName("UnitPrice");
+
+                    money.Property(m => m.Currency)
+                    .HasColumnName("Currency");
+                });
+
 
             modelBuilder.Entity<Customer>().HasKey(u => u.Id);
             modelBuilder.Entity<Customer>().Property(c => c.FullName).IsRequired();
-            modelBuilder.Entity<Customer>().Property(c => c.Phone).IsRequired();
             modelBuilder.Entity<Customer>()
                 .HasOne<User>()
                 .WithOne()
                 .HasForeignKey<Customer>(c => c.UserId);
 
+            modelBuilder.Entity<Customer>()
+                .OwnsOne(x => x.Email, email =>
+                {
+                    email.Property(m => m.Address)
+                    .HasColumnName("EmailAddess");
+                });
+
             modelBuilder.Entity<Order>().HasKey(u => u.Id);
             modelBuilder.Entity<Order>()
-                .OwnsMany(typeof(OrderItem), "_items", item =>
-                {
-                    item.WithOwner().HasForeignKey("OrderId");
+                .HasMany<OrderItem>(x => x.Items)
+                .WithOne(c => c.Order)
+                .HasForeignKey(c => c.OrderId);
 
-                    item.Property<Guid>("Id");
-                    item.HasKey("Id");
+
+            modelBuilder.Entity<OrderItem>()
+                .OwnsOne(x => x.UnitPrice, money =>
+                {
+                    money.Property(m => m.Amount)
+                    .HasColumnName("UnitPrice");
+
+                    money.Property(m => m.Currency)
+                    .HasColumnName("Currency");
                 });
-            modelBuilder.Entity<Order>()
-                .HasOne<Customer>()      
-                .WithMany()
-                .HasForeignKey(o => o.CustomerId);
+            modelBuilder.Entity<OrderItem>()
+                .Ignore(x => x.TotalPrice);
 
             modelBuilder.Entity<Wallet>().HasKey(u => u.Id);
             modelBuilder.Entity<Wallet>()
-                .OwnsMany(typeof(PaymentTransaction), "_transactions", transaction =>
-                {
-                    transaction.WithOwner().HasForeignKey("WalletId");
+                .HasMany(x => x.Transactions)
+                .WithOne(x => x.Wallet)
+                .HasForeignKey(x => x.WalletId);
 
-                    transaction.Property<Guid>("Id");
-                    transaction.HasKey("Id");
-                });
             modelBuilder.Entity<Wallet>()
                 .HasOne<Customer>()
                 .WithOne()
                 .HasForeignKey<Wallet>(w => w.CustomerId);
+
+            modelBuilder.Entity<Wallet>()
+                .OwnsOne(x => x.Balance, money =>
+                {
+                    money.Property(m => m.Amount)
+                    .HasColumnName("Balence");
+                });
+
+            modelBuilder.Entity<PaymentTransaction>()
+                .OwnsOne(x => x.Amount, money =>
+                {
+                    money.Property(m => m.Amount)
+                    .HasColumnName("Amount");
+
+                    money.Property(m => m.Currency)
+                    .HasColumnName("Currency");
+                });
+            modelBuilder.Entity<PaymentTransaction>()
+                .OwnsOne(x => x.CurrentBalance, money =>
+                {
+                    money.Property(m => m.Amount)
+                    .HasColumnName("CurrentBalence");
+                });
+            modelBuilder.Entity<PaymentTransaction>()
+                .OwnsOne(x => x.PreviousBalance, money =>
+                {
+                    money.Property(m => m.Amount)
+                    .HasColumnName("PreviousBalence");
+                });
 
         }
     }

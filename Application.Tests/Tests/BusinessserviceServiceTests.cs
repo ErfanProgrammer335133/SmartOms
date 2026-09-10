@@ -33,7 +33,7 @@ namespace Application.Tests.Tests
             [Fact]
             public async Task Should_Failure_When_Service_Was_Not_Founded()
             {
-                _mockBusinessServiceRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((BusinessService)null);
+                _mockBusinessServiceRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((BusinessService)null!);
 
                 Result result = await _Service.ActivateAsync(Guid.NewGuid());
                 Assert.False(result.IsSuccess);
@@ -62,7 +62,7 @@ namespace Application.Tests.Tests
             [Fact]
             public async Task Should_return_Failure_When_Model_Is_Null()
             {
-                Result result = await _Service.AddAsync(null);
+                Result result = await _Service.AddAsync(null!);
 
                 Assert.False(result.IsSuccess);
                 Assert.Equal("ورودی نامعتبر است .", result.ErrorMessage);
@@ -97,7 +97,7 @@ namespace Application.Tests.Tests
             [Fact]
             public async Task Should_Failure_When_Service_Was_Not_Founded()
             {
-                _mockBusinessServiceRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((BusinessService)null);
+                _mockBusinessServiceRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((BusinessService)null!);
 
                 Result result = await _Service.ActivateAsync(Guid.NewGuid());
                 Assert.False(result.IsSuccess);
@@ -126,7 +126,7 @@ namespace Application.Tests.Tests
             [Fact]
             public async Task Should_Failure_When_Service_Was_Not_Founded()
             {
-                _mockBusinessServiceRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((BusinessService)null);
+                _mockBusinessServiceRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((BusinessService)null!);
 
                 Result result = await _Service.DecreasePrcieAsync(10 , Guid.NewGuid());
                 Assert.False(result.IsSuccess);
@@ -154,7 +154,7 @@ namespace Application.Tests.Tests
             [Fact]
             public async Task Should_Failure_When_Service_Was_Not_Founded()
             {
-                _mockBusinessServiceRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((BusinessService)null);
+                _mockBusinessServiceRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((BusinessService)null!);
 
                 Result result = await _Service.IncreasePriceAsync(10, Guid.NewGuid());
                 Assert.False(result.IsSuccess);
@@ -182,7 +182,7 @@ namespace Application.Tests.Tests
             [Fact]
             public async Task Should_Failure_When_Service_Was_Not_Founded()
             {
-                _mockBusinessServiceRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((BusinessService)null);
+                _mockBusinessServiceRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((BusinessService)null!);
 
                 Result result = await _Service.SetFreeAsync(Guid.NewGuid());
                 Assert.False(result.IsSuccess);
@@ -211,7 +211,7 @@ namespace Application.Tests.Tests
             [Fact]
             public async Task Should_Failure_When_Service_Was_Not_Founded()
             {
-                _mockBusinessServiceRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((BusinessService)null);
+                _mockBusinessServiceRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((BusinessService)null!);
 
                 Result result = await _Service.SetPaidAsync(Guid.NewGuid() , new Money(150));
                 Assert.False(result.IsSuccess);
@@ -240,7 +240,7 @@ namespace Application.Tests.Tests
             [Fact]
             public async Task Should_Failure_When_Service_Was_Not_Founded()
             {
-                _mockBusinessServiceRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((BusinessService)null);
+                _mockBusinessServiceRepo.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync((BusinessService)null!);
 
                 UpdateServiceDto service = new UpdateServiceDto
                 {

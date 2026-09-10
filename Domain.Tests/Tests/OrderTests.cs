@@ -57,7 +57,7 @@ namespace Domain.Tests.Tests
             public IEnumerator<object[]> GetEnumerator()
             {
                 yield return new object[] { new List<OrderItem>() };
-                yield return new object[] { null };
+                yield return new object[] { null! };
             }
 
             IEnumerator IEnumerable.GetEnumerator()
@@ -113,7 +113,7 @@ namespace Domain.Tests.Tests
         public void AddItem_Should_Throw_DomainValidationException_When_Item_Is_Null()
         {
             Order order = new Order(Guid.NewGuid(), items);
-            Assert.Throws<DomainValidationException>(() => order.AddItem(null));
+            Assert.Throws<DomainValidationException>(() => order.AddItem(null!));
         }
 
         [Theory]
@@ -140,7 +140,6 @@ namespace Domain.Tests.Tests
             };
             OrderItem newItem = new  OrderItem(serviceId, "title 1", new ValueObjects.Money(100), 1, 3);
             Order order = new Order(Guid.NewGuid(), items);
-            int prev_Quantoty = 2;
             order.AddItem(newItem);
             int expected_Quantity = 2 + 1; // 3
 

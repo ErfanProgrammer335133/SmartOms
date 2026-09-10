@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
 {
-    class BusinessServiceRepository : GenericRepository<BusinessService>, IBusinessServiceRepository
+    public class BusinessServiceRepository : GenericRepository<BusinessService>, IBusinessServiceRepository
     {
         private readonly Context _context;
         public BusinessServiceRepository(Context context) : base(context)

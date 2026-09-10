@@ -31,6 +31,10 @@ namespace Domain.Entities
             _transactions = new List<PaymentTransaction>();
         }
 
+        private Wallet()
+        {
+            
+        }
         public PaymentTransaction Deposite(Money amount)
         {
             if (amount.Amount <= 0)

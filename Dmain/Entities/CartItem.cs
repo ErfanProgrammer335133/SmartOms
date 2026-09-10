@@ -13,6 +13,8 @@ namespace Domain.Entities
     {
         public Guid Id { get; private set; }
         public Guid ServiceId { get; private set; }
+        public Guid CartId { get; private set; }
+        public Cart Cart { get; private set; }
         public string Title { get; private set; }
         public Money UnitPrice { get; private set; }
         public decimal DiscountPercent { get; private set; }
@@ -36,7 +38,10 @@ namespace Domain.Entities
             MaxQuantity = maxQuantity;
             DiscountPercent = discountPercent;
         }
-
+        private CartItem()
+        {
+            
+        }
         public Money TotalPrice => new Money(UnitPrice.Amount * Quantity, UnitPrice.Currency);
         public Money FinalPrice => DiscountGuard.CalculateDiscount(TotalPrice , DiscountPercent);
         public void IncreaseQuantity(int count)

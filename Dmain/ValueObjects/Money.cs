@@ -27,6 +27,8 @@ namespace Domain.ValueObjects
             Currency = CurrencyEnum.Toman;
         }
 
+        private Money() { }
+
         public override bool Equals(object? obj)
         {
             return obj is Money other && other.Amount == this.Amount && other.Currency == this.Currency;

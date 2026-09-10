@@ -24,6 +24,11 @@ namespace Domain.Entities
             IsCheckout = false;
         }
 
+        private Cart()
+        {
+            
+        }
+
         public void AddItem(Guid ServiceId , string Titlle , Money Price , int quantity , int maxQuantity , decimal discountPecent)
         {
             if (string.IsNullOrWhiteSpace(Titlle) || Price == null)

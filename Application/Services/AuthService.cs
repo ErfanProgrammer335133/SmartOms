@@ -7,7 +7,7 @@ using Domain.Entities;
 using Domain.Enums;
 using Domain.Exceptions;
 using Domain.Repositories;
-using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Identity;
 using Org.BouncyCastle.Crypto.Generators;
 using System;
 using System.Collections.Generic;
@@ -23,12 +23,12 @@ namespace Application.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly ICustomerService _customerService;
-        private readonly IPasswordHasher _hasher;
+        private readonly IPasswordHasher<object> _hasher;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IJwtservice _jwtService;
 
 
-        public AuthService(IUserRepository userRepository , IPasswordHasher passwordHasher 
+        public AuthService(IUserRepository userRepository , IPasswordHasher<object> passwordHasher 
             , IUnitOfWork unitOfWork , IJwtservice jwtservice , ICustomerService customerServcie)
         {
             _userRepository = userRepository;
@@ -41,9 +41,7 @@ namespace Application.Services
         {
             return await ServiceHelper.Do(async () =>
             {
-                await Register(model, RoleEnum.Customer);
-                return Result.Faliure("خطایی رخ داده است");
-
+                return await Register(model, RoleEnum.Customer);
             }, 2);
         }
 
@@ -51,8 +49,7 @@ namespace Application.Services
         {
             return await ServiceHelper.Do(async () =>
             {
-                await Register(model, RoleEnum.Admin);
-                return Result.Faliure("خطایی رخ داده است");
+                return await Register(model, RoleEnum.Admin);
             }, 2);
         }
 
@@ -124,7 +121,7 @@ namespace Application.Services
                 User? isExist = await _userRepository.GetByMobileOrUsernameAsync(model.Username, model.Phone);
                 if (isExist is not null)
                     return Result<RegisterResultDto>.Failure("چنین کاربری با این نام کاربری یا شماره تلفن قبلا ثبت شده است .");
-                string hashedPassword = _hasher.HashPassword(model.Password);
+                string hashedPassword = _hasher.HashPassword(model , model.Password);
                 User user = new User
                 (
                     username: model.Username,
@@ -157,8 +154,8 @@ namespace Application.Services
                 User? user = await func();
                 if (user is null)
                     return Result<LoginResultDto>.Failure("نام کاربری یا کلمه عبور اشتباه است .");
-                string hashPassword = _hasher.HashPassword(password);
-                var res = _hasher.VerifyHashedPassword(hashPassword, user.HashPassword);
+                string hashPassword = _hasher.HashPassword(user , password);
+                var res = _hasher.VerifyHashedPassword(user, user.HashPassword , password);
                 if (res == PasswordVerificationResult.Failed)
                 {
                     Console.WriteLine("Hash error");

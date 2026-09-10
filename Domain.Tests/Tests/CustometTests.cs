@@ -30,7 +30,7 @@ namespace Domain.Tests.Tests
         public void Constructor_Should_Throw_PhoneValidationException_When_Phone_Is_Invalid(string phone)
         {
             Assert.Throws<PhoneValidationException>(() =>
-                new Customer(Guid.NewGuid(), "test fullname", phone, "test@gmail.com"));
+                new Customer(Guid.NewGuid(), "test fullname", "test@gmail.com"));
         }
         
         [Theory]
@@ -49,16 +49,12 @@ namespace Domain.Tests.Tests
         {
             Guid userId = Guid.NewGuid();
             string fullname = "test fullname";
-            string phone = "09951457850";
             string email = "test@gmail.com";
             Customer customer = new Customer(userId, fullname, email);
 
-            string expectedPhoneFormat = "989951457850";
-
             Assert.NotNull(customer);
             Assert.Equal(fullname, customer.FullName);
-            Assert.Equal(expectedPhoneFormat, customer.Phone.PhoneNumber);
-            Assert.Equal(email, customer.Email.Address);
+            Assert.Equal(email, customer?.Email?.Address);
         }
 
         [Fact]

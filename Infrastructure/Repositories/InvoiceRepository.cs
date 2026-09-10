@@ -1,6 +1,4 @@
-﻿using Dmain.Entities;
-using Dmain.IRepositories;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Domain.IRepositories;
 using Infrastructure.Database_Context;
 using System;

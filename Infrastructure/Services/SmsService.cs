@@ -1,6 +1,5 @@
 ﻿using Application.Interfaces;
 using Azure.Core;
-using Dmain.ValueObjects;
 using Domain.ValueObjects;
 using Infrastructure.InfraExceptions;
 using Infrastructure.InfraGuard;
@@ -14,6 +13,6 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
-    public class SmsService : ISmsService
+    public class SmsService
     {}
 }
